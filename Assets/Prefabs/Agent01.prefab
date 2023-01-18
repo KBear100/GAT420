@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5339038533181309921
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2937647109871264951}
+  m_Layer: 0
+  m_Name: Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2937647109871264951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5339038533181309921}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.35, z: 0.516}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6197841708817338664}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6197841708419340477
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,13 +125,15 @@ GameObject:
   - component: {fileID: 6197841708817338664}
   - component: {fileID: 6197841708817338711}
   - component: {fileID: 6197841708817338710}
-  - component: {fileID: 6197841708817338709}
+  - component: {fileID: 1873690555105503568}
+  - component: {fileID: 6719807741148469132}
+  - component: {fileID: 392339597332675807}
   - component: {fileID: 6197841708817338665}
   - component: {fileID: 6197841708817338666}
   - component: {fileID: 6197841708817338667}
   m_Layer: 0
-  m_Name: Agent
-  m_TagString: Untagged
+  m_Name: Agent01
+  m_TagString: Agent01
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,6 +151,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6197841708419340476}
+  - {fileID: 2937647109871264951}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -133,11 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee13cf4e434106b4cb87baaeca62c31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perseption: {fileID: 6197841708817338709}
+  perseption: {fileID: 1873690555105503568}
   movement: {fileID: 6197841708817338710}
-  wanderDistance: 1
-  wanderRadius: 5
-  wanderDisplacement: 30
+  flockPerception: {fileID: 6719807741148469132}
+  obstacleAvoidance: {fileID: 392339597332675807}
+  data: {fileID: 11400000, guid: 3efc5b33cd8641a4e8a9e054edf21df1, type: 2}
 --- !u!114 &6197841708817338710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,10 +184,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ee498142f245c49b68d8b2923e8f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
+  maxSpeed: 7
   minSpeed: 1
-  maxForce: 5
---- !u!114 &6197841708817338709
+  maxForce: 10
+--- !u!114 &1873690555105503568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,12 +196,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 6197841708817338668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf202434f7901274389d3f6eb3dba3c9, type: 3}
+  m_Script: {fileID: 11500000, guid: aaf99d3822c4b2848bc0d3caa93abaf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Agent02
+  distance: 15
+  maxAngle: 80
+  raycastTransform: {fileID: 2937647109871264951}
+  numRaycast: 16
+--- !u!114 &6719807741148469132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197841708817338668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaf99d3822c4b2848bc0d3caa93abaf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tagName: Agent01
-  distance: 20
+  distance: 10
+  maxAngle: 150
+  raycastTransform: {fileID: 2937647109871264951}
+  numRaycast: 24
+--- !u!114 &392339597332675807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197841708817338668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45adbaa005a0d864a9712935c17ee7b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raycastTransform: {fileID: 2937647109871264951}
+  distance: 10
   maxAngle: 90
+  numRaycast: 16
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!33 &6197841708817338665
 MeshFilter:
   m_ObjectHideFlags: 0
