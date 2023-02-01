@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class StateAgent : Agent
 {
-    [SerializeField] private Animator animator;
+    public StateMachine stateMachine = new StateMachine();
+    public GameObject[] perceived;
 
     void Start()
     {
-        
+        stateMachine.AddState(new IdleState(this));
+        stateMachine.AddState(new PatrolState(this));
+        stateMachine.AddState(new ChaseState(this));
+        stateMachine.StartState(nameof(IdleState));
     }
 
     void Update()
     {
+        perceived = perseption.GetGameObjects();
+
+        stateMachine.Update();
+
         if(Input.GetKey(KeyCode.Space))
         {
             animator.SetFloat("Speed", 0.5f);
