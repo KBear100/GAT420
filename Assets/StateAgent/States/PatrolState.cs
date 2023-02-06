@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class PatrolState : State
 {
+    float timer = 0;
+
     public PatrolState(StateAgent owner) : base(owner)
     {
     }
 
     public override void OnEnter()
     {
-        Debug.Log("Patrol Enter");
+        owner.movement.Resume();
+        owner.navigation.targetNode = owner.navigation.GetNearestNode();
+        timer = Random.Range(5, 10);
     }
 
     public override void OnExit()
     {
-        Debug.Log("Patrol Exit");
+
     }
 
     public override void OnUpdate()
@@ -23,6 +28,12 @@ public class PatrolState : State
         if(owner.perceived.Length > 0)
         {
             owner.stateMachine.StartState(nameof(ChaseState));
+        }
+
+        timer -= Time.deltaTime;
+        if(timer <= 0)
+        {
+            owner.stateMachine.StartState(nameof(WanderState));
         }
     }
 }

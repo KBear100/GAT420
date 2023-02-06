@@ -12,13 +12,13 @@ public class IdleState : State
 
     public override void OnEnter()
     {
-        Debug.Log("Idle Enter");
-        timer = 2;
+        owner.movement.Stop();
+        timer = Random.Range(2, 3);
     }
 
     public override void OnExit()
     {
-        Debug.Log("Idle Exit");
+
     }
 
     public override void OnUpdate()
