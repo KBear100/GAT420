@@ -28,6 +28,8 @@ public class StateAgent : Agent
         stateMachine.AddState(new PatrolState(this));
         stateMachine.AddState(new ChaseState(this));
         stateMachine.AddState(new WanderState(this));
+        stateMachine.AddState(new DeathState(this));
+        stateMachine.AddState(new EvadeState(this));
         stateMachine.AddState(new AttackState(this));
 
         // create conditions
@@ -35,6 +37,7 @@ public class StateAgent : Agent
         Condition enemySeenCondition = new BoolCondition(enemySeen, true);
         Condition enemyNotSeenCondition = new BoolCondition(enemySeen, false);
         Condition healthLowCondition = new FloatCondition(health, Condition.Predicate.LESS_EQUAL, 30);
+        Condition enemyNear = new FloatCondition(enemyDistance, Condition.Predicate.LESS_EQUAL, 2);
         Condition healthOkCondition = new FloatCondition(health, Condition.Predicate.GREATER, 30);
         Condition deathCondition = new FloatCondition(health, Condition.Predicate.LESS_EQUAL, 0);
         Condition animationDoneCondition = new BoolCondition(animationDone, true);
@@ -42,10 +45,18 @@ public class StateAgent : Agent
 
         //create transitions
         stateMachine.AddTransition(nameof(IdleState), new Transition(new Condition[] { timerExpiredCondition }), nameof(PatrolState));
-        stateMachine.AddTransition(nameof(IdleState), new Transition(new Condition[] { enemySeenCondition }), nameof(ChaseState));
+        stateMachine.AddTransition(nameof(IdleState), new Transition(new Condition[] { enemySeenCondition, healthOkCondition }), nameof(ChaseState));
+        stateMachine.AddTransition(nameof(IdleState), new Transition(new Condition[] { enemySeenCondition, healthLowCondition }), nameof(EvadeState));
 
         stateMachine.AddTransition(nameof(PatrolState), new Transition(new Condition[] { timerExpiredCondition }), nameof(WanderState));
-        stateMachine.AddTransition(nameof(PatrolState), new Transition(new Condition[] { enemySeenCondition }), nameof(ChaseState));
+        stateMachine.AddTransition(nameof(PatrolState), new Transition(new Condition[] { enemySeenCondition, healthOkCondition }), nameof(ChaseState));
+        stateMachine.AddTransition(nameof(PatrolState), new Transition(new Condition[] { enemySeenCondition, healthLowCondition }), nameof(EvadeState));
+
+        stateMachine.AddTransition(nameof(ChaseState), new Transition(new Condition[] { enemyNotSeenCondition }), nameof(IdleState));
+        stateMachine.AddTransition(nameof(ChaseState), new Transition(new Condition[] { enemySeenCondition, enemyNear }), nameof(AttackState));
+        stateMachine.AddTransition(nameof(ChaseState), new Transition(new Condition[] { enemySeenCondition, healthLowCondition }), nameof(EvadeState));
+
+        stateMachine.AddAnyTransition(new Transition(new Condition[] {deathCondition }), nameof(DeathState));
 
         stateMachine.StartState(nameof(IdleState));
     }
