@@ -22,10 +22,10 @@ public class EvadeState : State
 
     public override void OnUpdate()
     {
-        if(owner.enemySeen)
-        {
-            Vector3 direction = (owner.transform.position - owner.perceived[0].transform.position).normalized;
-            owner.movement.MoveTowards(owner.transform.position + direction * 5);
-        }
+        //if(owner.enemySeen)
+        //{
+        //    Vector3 direction = (owner.transform.position - owner.perceived[0].transform.position).normalized;
+        //    owner.movement.MoveTowards(owner.transform.position + direction * 5);
+        //}
     }
 }

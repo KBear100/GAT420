@@ -7,8 +7,6 @@ using static UnityEngine.UI.GridLayoutGroup;
 
 public class AttackState : State
 {
-    private float timer;
-
     public AttackState(StateAgent owner) : base(owner)
     {
     }
@@ -21,12 +19,13 @@ public class AttackState : State
 
         AnimationClip[] clips = owner.animator.runtimeAnimatorController.animationClips;
         AnimationClip clip = clips.FirstOrDefault<AnimationClip>(clip => clip.name == "Punch");
-        timer = (clip != null) ? clip.length : 1;
 
         var colliders = Physics.OverlapSphere(owner.transform.position, 2);
         foreach(var collider in colliders)
         {
             if (collider.gameObject == owner.gameObject || collider.gameObject.CompareTag(owner.gameObject.tag)) continue;
+
+            if (collider.gameObject.CompareTag("Dead")) continue;
 
             if(collider.gameObject.TryGetComponent<StateAgent>(out var component))
             {
@@ -42,10 +41,6 @@ public class AttackState : State
 
     public override void OnUpdate()
     {
-         timer -= Time.deltaTime;
-         if (timer <= 0) 
-         {
-            owner.stateMachine.StartState(nameof(ChaseState));
-         }
+
     }
 }

@@ -43,6 +43,9 @@ public class SphereCastPerception : Perseption
 
         }
 
+        // remove duplicates
+        result = result.Distinct().ToList();
+
         // sort results by distance 
         result.Sort(CompareDistance);
 

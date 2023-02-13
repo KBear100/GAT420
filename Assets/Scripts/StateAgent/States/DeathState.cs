@@ -12,6 +12,7 @@ public class DeathState : State
     {
         owner.animator.SetBool("isDead", true);
         owner.movement.Stop();
+        owner.tag = "Dead";
     }
 
     public override void OnExit()

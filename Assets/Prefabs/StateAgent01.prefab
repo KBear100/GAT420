@@ -90,6 +90,18 @@ MonoBehaviour:
   animator: {fileID: 5158834133100136356}
   navigation: {fileID: 1656561491129237182}
   perceived: []
+  health:
+    value: 0
+  timer:
+    value: 0
+  enemyDistance:
+    value: 0
+  enemySeen:
+    value: 0
+  animationDone:
+    value: 0
+  atDestination:
+    value: 0
 --- !u!114 &1656561491129237183
 MonoBehaviour:
   m_ObjectHideFlags: 0
